@@ -28,5 +28,7 @@ class Calculator
 
             $this->result = $this->operation->run($num, $this->result);
         }
+        
+        return $this->result;
     }
 }

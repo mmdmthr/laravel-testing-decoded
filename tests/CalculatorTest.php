@@ -18,10 +18,26 @@ class CalculatorTest extends TestCase
 
     public function testAddsNumbers()
     {
+        // Mock all outside objects.
+        // We're not interested in testing those
+        // They should have their own tests
+        $mock = Mockery::mock('Addition');
+
+        // All we care about is verifying that
+        // the proper method was called
+        $mock->shouldReceive('run')
+             ->once()
+             ->with(5, 0)
+             ->andReturn(5);
+
         $this->calc->setOperands(5);
-        $this->calc->setOperation(new Addition);
-        $this->calc->calculate();
-        $result = $this->calc->getResult();
+
+        // Rather than instantiate Addition
+        // we pass in the mock object
+        $this->calc->setOperation($mock);
+
+        // And then it's business per usual!
+        $result = $this->calc->calculate();
 
         $this->assertEquals(5, $result);
     }
@@ -37,8 +53,7 @@ class CalculatorTest extends TestCase
     {
         $this->calc->setOperands(1, 2, 3, 4);
         $this->calc->setOperation(new Addition);
-        $this->calc->calculate();
-        $result = $this->calc->getResult();
+        $result = $this->calc->calculate();
 
         $this->assertEquals(10, $result);
         $this->assertNotEquals('Snoop Dogg', $this->calc->getResult());
@@ -48,8 +63,7 @@ class CalculatorTest extends TestCase
     {
         $this->calc->setOperands(4);
         $this->calc->setOperation(new Substraction);
-        $this->calc->calculate();
-        $result = $this->calc->getResult();
+        $result = $this->calc->calculate();
 
         $this->assertEquals(-4, $result);
     }
@@ -58,8 +72,7 @@ class CalculatorTest extends TestCase
     {
         $this->calc->setOperands(3, 3, 3);
         $this->calc->setOperation(new Multiplication);
-        $this->calc->calculate();
-        $result = $this->calc->getResult();
+        $result = $this->calc->calculate();
 
         $this->assertEquals(27, $result);
     }

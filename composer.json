@@ -10,7 +10,11 @@
             "app/helpers.php"
         ],
         "classmap": [
-            "Calculator.php"
+            "Calculator.php",
+            "Addition.php",
+            "Substraction.php",
+            "Multiplication.php",
+            "Operation.php"
         ]
     }
 }
